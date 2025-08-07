@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "134493394962",
+    "project_id": "treasure-of-aware",
+    "storage_bucket": "treasure-of-aware.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134493394962:android:cdc8abe0abfa2d0f3260cb",
+        "android_client_info": {
+          "package_name": "com.example.treasure_of_aware"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmT5yo4yulQkxfcZgGEwJkJUSPME4fbvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
