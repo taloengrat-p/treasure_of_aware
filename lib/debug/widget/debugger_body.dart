@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:treasure_of_aware/debug/widget/treasure/treasure_debug_widget.dart';
+import 'package:treasure_of_aware/debug/widget/user/user_debug_widget.dart';
 
 class DebuggerBody extends StatefulWidget {
   const DebuggerBody({super.key});
@@ -12,11 +13,15 @@ class _DebuggerBodyState extends State<DebuggerBody> {
   List<Widget> get items => [
     ElevatedButton(
       onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const TreasureDebugWidget()),
-        );
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TreasureDebugWidget()));
       },
-      child: Text("Treasure list"),
+      child: Text("Treasure"),
+    ),
+    ElevatedButton(
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UserDebugWidget()));
+      },
+      child: Text("User"),
     ),
   ];
 
@@ -26,7 +31,7 @@ class _DebuggerBodyState extends State<DebuggerBody> {
       appBar: AppBar(title: Text("Debugger tool")),
       body: ListView.separated(
         itemBuilder: (context, index) {
-          return InkWell(onTap: () {}, child: items.elementAt(index));
+          return items.elementAt(index);
         },
         separatorBuilder: (context, index) => Divider(),
         itemCount: items.length,

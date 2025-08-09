@@ -15,11 +15,16 @@ class MapLayout extends StatefulWidget {
 }
 
 class _MapLayoutState extends State<MapLayout> {
-  final cubit = MapLayoutCubit();
+  late GoogleMapController _mapController;
+
+  late final MapLayoutCubit cubit;
 
   @override
   void initState() {
+    cubit = BlocProvider.of<MapLayoutCubit>(context);
+
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       cubit.init();
     });
@@ -29,53 +34,73 @@ class _MapLayoutState extends State<MapLayout> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: cubit,
-      child: BlocBuilder<MapLayoutCubit, MapLayoutState>(
-        builder: (context, state) {
-          return Stack(
-            children: [
-              GoogleMap(
-                myLocationButtonEnabled: true,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(13.886773726442597, 100.60293697684514),
-                  zoom: 22,
+      child: BlocListener<MapLayoutCubit, MapLayoutState>(
+        listener: (context, state) {
+          if (state is MapLayoutFlyTo) {
+            Future.delayed(Duration(seconds: 1), () {
+              _mapController.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(
+                    target: state.location,
+                    zoom: 22, // Adjust zoom level as needed
+                    // tilt: 45.0, // Optional: tilt for 3D effect
+                    // bearing: 90.0, // Optional: rotate camera to face east, for example
+                  ),
                 ),
-                myLocationEnabled: true,
-                mapToolbarEnabled: true,
-                markers: cubit.treasureItems
-                    .map(
-                      (item) => Marker(
-                        markerId: MarkerId(item.id),
-                        icon: cubit.treasuries.isEmpty
-                            ? BitmapDescriptor.defaultMarker
-                            : AssetMapBitmap(
-                                cubit.treasuries
-                                    .firstWhere((e) => e.id == item.treasureId)
-                                    .imageAsset,
-                                height: 24,
-                              ),
-                        position: item.latlng,
-                        infoWindow: InfoWindow(
-                          title: 'Treasure Here!',
-                          onTap: () {
-                            log("message");
-                          },
-                        ),
-                      ),
-                    )
-                    .toSet(),
-              ),
-              Visibility(
-                visible: state is MapLayoutLoading,
-                child: Container(
-                  color: Colors.black54,
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: CircularProgressIndicator.adaptive(),
-                ),
-              ),
-            ],
-          );
+                duration: Duration(milliseconds: 750),
+              );
+            });
+          }
         },
+        child: BlocBuilder<MapLayoutCubit, MapLayoutState>(
+          builder: (context, state) {
+            return Stack(
+              children: [
+                GoogleMap(
+                  onMapCreated: (controller) {
+                    _mapController = controller;
+                  },
+                  myLocationButtonEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(13.886773726442597, 100.60293697684514),
+                    zoom: 22,
+                  ),
+                  myLocationEnabled: true,
+                  mapToolbarEnabled: true,
+                  markers: cubit.treasureItems
+                      .map(
+                        (item) => Marker(
+                          markerId: MarkerId(item.id),
+                          icon: cubit.treasuries.isEmpty
+                              ? BitmapDescriptor.defaultMarker
+                              : AssetMapBitmap(
+                                  cubit.treasuries.firstWhere((e) => e.id == item.treasureId).imageAsset,
+                                  height: 24,
+                                ),
+                          position: item.latlng,
+                          infoWindow: InfoWindow(
+                            title: item.treasure(cubit.treasuries)?.name,
+                            onTap: () {
+                              log("message");
+                            },
+                          ),
+                        ),
+                      )
+                      .toSet(),
+                ),
+                Visibility(
+                  visible: state is MapLayoutLoading,
+                  child: Container(
+                    color: Colors.black54,
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

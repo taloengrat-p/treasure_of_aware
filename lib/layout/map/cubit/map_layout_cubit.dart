@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:treasure_of_aware/models/treasure.dart';
 import 'package:treasure_of_aware/models/treasure_item.dart';
 import 'package:treasure_of_aware/repository/treasure/treasure_repository.dart';
@@ -19,5 +20,9 @@ class MapLayoutCubit extends Cubit<MapLayoutState> {
     treasureItems = await treasureRepository.getAllItems();
 
     emit(MapLayoutGetTreasureItemSuccess());
+  }
+
+  flyTo(LatLng location) async {
+    emit(MapLayoutFlyTo(location));
   }
 }

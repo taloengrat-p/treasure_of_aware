@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:treasure_of_aware/debug/widget/treasure/cubit/treasure_debug_cubit.dart';
+import 'package:treasure_of_aware/debug/widget/treasure/widgets/treasure_detail/treasure_detail_debug_widget.dart';
 
 class TreasureDebugWidget extends StatefulWidget {
   const TreasureDebugWidget({super.key});
@@ -30,9 +31,7 @@ class _TreasureDebugWidgetState extends State<TreasureDebugWidget> {
           title: Text("Treasure"),
           actions: [
             PopupMenuButton(
-              itemBuilder: (BuildContext context) => [
-                PopupMenuItem(child: Text('Create'), onTap: () {}),
-              ],
+              itemBuilder: (BuildContext context) => [PopupMenuItem(child: Text('Create'), onTap: () {})],
             ),
           ],
         ),
@@ -46,15 +45,28 @@ class _TreasureDebugWidgetState extends State<TreasureDebugWidget> {
                 enabled: state is TreasureDebugLoading,
                 child: ListView.separated(
                   itemBuilder: (context, index) {
-                    final item = cubit.items[index];
-                    return ListTile(
-                      title: Text(item.name),
-                      subtitle: Text("Amount ${item.amount ?? 0}"),
-                      trailing: Icon(Icons.chevron_right_rounded),
+                    final item = cubit.treasure[index];
+                    final treasureItem = item.treasureItems(cubit.treasureItems);
+                    return InkWell(
+                      onTap: () {
+                        if (treasureItem.isNotEmpty) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  TreasureDetailDebugWidget(treasure: item, treasureItems: treasureItem),
+                            ),
+                          );
+                        }
+                      },
+                      child: ListTile(
+                        title: Text(item.name),
+                        subtitle: Text("Amount : ${treasureItem.length}"),
+                        trailing: treasureItem.isNotEmpty ? Icon(Icons.chevron_right_rounded) : null,
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) => Divider(),
-                  itemCount: cubit.items.length,
+                  itemCount: cubit.treasure.length,
                 ),
               );
             },

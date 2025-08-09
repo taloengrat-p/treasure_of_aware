@@ -1,4 +1,5 @@
 import "package:json_annotation/json_annotation.dart";
+import 'package:treasure_of_aware/models/treasure_item.dart';
 
 part "treasure.g.dart";
 
@@ -38,8 +39,11 @@ class Treasure {
     }
   }
 
-  factory Treasure.fromJson(Map<String, dynamic> json) =>
-      _$TreasureFromJson(json);
+  List<TreasureItem> treasureItems(List<TreasureItem> items) {
+    return items.where((e) => e.treasureId == id).toList();
+  }
+
+  factory Treasure.fromJson(Map<String, dynamic> json) => _$TreasureFromJson(json);
 
   Map<String, dynamic> toJson() => _$TreasureToJson(this);
 }

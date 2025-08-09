@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:treasure_of_aware/firebase_options.dart';
+import 'package:treasure_of_aware/layout/map/cubit/map_layout_cubit.dart';
 import 'package:treasure_of_aware/screens/main_screen.dart';
 import 'package:treasure_of_aware/services/inject/inject.dart';
 
@@ -8,7 +10,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   configureDependencies();
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => MapLayoutCubit())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
