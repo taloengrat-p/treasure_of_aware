@@ -8,3 +8,9 @@ sealed class TreasureDetailDebugState extends Equatable {
 }
 
 final class TreasureDetailDebugInitial extends TreasureDetailDebugState {}
+
+final class TreasureDetailDebugLoading extends TreasureDetailDebugState {}
+
+final class TreasureDetailDebugSuccess extends TreasureDetailDebugState {}
+
+final class TreasureDetailDebugFailure extends TreasureDetailDebugState {}

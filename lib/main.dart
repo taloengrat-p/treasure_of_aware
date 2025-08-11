@@ -73,6 +73,16 @@ class _MyAppState extends State<MyApp> {
             context,
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            fixedSize: WidgetStatePropertyAll(Size(double.infinity, 60)),
+            textStyle: WidgetStatePropertyAll(
+              Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
       ),
       home: const SplashScreen(),
     );

@@ -159,18 +159,20 @@ class _MainScreenState extends State<MainScreen> {
     MapLayoutState state,
   ) {
     if (state is MapLayoutUserLocationUpdate) {
-      _mapController?.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: mapCubit.currentPosition!,
-            zoom: state.zoom,
-            bearing: state.heading,
-            tilt: state.tilt,
+      if (!debuggerCubit.isDebugMode) {
+        _mapController?.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: mapCubit.currentPosition!,
+              zoom: state.zoom,
+              bearing: state.heading,
+              tilt: state.tilt,
+            ),
           ),
-        ),
-      );
+        );
 
-      cubit.detectCloseToTreasureItem();
+        cubit.detectCloseToTreasureItem();
+      }
     }
   }
 

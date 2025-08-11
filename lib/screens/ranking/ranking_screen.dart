@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:treasure_of_aware/screens/main/main_screen.dart';
 import 'package:treasure_of_aware/screens/ranking/cubit/ranking_cubit.dart';
 import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
 import 'package:treasure_of_aware/widgets/overlay_loading.dart';
@@ -94,6 +95,30 @@ class _RankingScreenState extends State<RankingScreen> {
                     ),
                   );
                 },
+              ),
+            ),
+            bottomNavigationBar: SafeArea(
+              child: Padding(
+                padding: EdgeInsetsGeometry.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScreen()),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.map_rounded, size: 28),
+                      SizedBox(width: 8),
+                      Text("Play Game"),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

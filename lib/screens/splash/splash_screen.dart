@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:treasure_of_aware/layout/map/cubit/map_layout_cubit.dart';
 import 'package:treasure_of_aware/screens/main/main_screen.dart';
+import 'package:treasure_of_aware/screens/ranking/ranking_screen.dart';
 import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
       listener: (BuildContext context, SessionState state) {
         if (state is SessionInitialSuccess) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const MainScreen()),
+            MaterialPageRoute(builder: (context) => const RankingScreen()),
           );
         }
       },

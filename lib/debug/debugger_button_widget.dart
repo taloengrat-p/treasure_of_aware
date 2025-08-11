@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:treasure_of_aware/debug/cubit/debugger_cubit.dart';
 import 'package:treasure_of_aware/debug/widget/debugger_body.dart';
 
 class DebuggerButtonWidget extends StatefulWidget {
@@ -37,7 +39,21 @@ class _DebuggerButtonWidgetState extends State<DebuggerButtonWidget> {
           context,
         ).push(MaterialPageRoute(builder: (context) => const DebuggerBody()));
       },
-      child: Icon(Icons.bug_report_outlined),
+      child: BlocBuilder<DebuggerCubit, DebuggerState>(
+        builder: (context, state) {
+          return Row(
+            children: [
+              Icon(Icons.bug_report_outlined),
+              SizedBox(width: 8),
+              Text(
+                BlocProvider.of<DebuggerCubit>(context).isDebugMode
+                    ? "ON"
+                    : "OFF",
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
