@@ -49,5 +49,9 @@
 		<string>We need your location to find nearby treasures!</string>
 		<key>NSLocationAlwaysUsageDescription</key>
 		<string>We use your location even when the app is in the background.</string>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
 	</dict>
 </plist>

@@ -23,6 +23,20 @@ class TreasureItem {
     this.owner,
   });
 
+  double get latitude {
+    final locationSplit = location.split(",");
+    final lat = locationSplit[0];
+
+    return double.tryParse(lat) ?? 0;
+  }
+
+  double get longitude {
+    final locationSplit = location.split(",");
+    final lon = locationSplit[1];
+
+    return double.tryParse(lon) ?? 0;
+  }
+
   LatLng get latlng {
     final locationSplit = location.split(",");
 
@@ -36,7 +50,8 @@ class TreasureItem {
     return treasures.where((e) => e.id == treasureId).firstOrNull;
   }
 
-  factory TreasureItem.fromJson(Map<String, dynamic> json) => _$TreasureItemFromJson(json);
+  factory TreasureItem.fromJson(Map<String, dynamic> json) =>
+      _$TreasureItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$TreasureItemToJson(this);
 }

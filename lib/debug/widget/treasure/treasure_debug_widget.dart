@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:treasure_of_aware/debug/widget/treasure/cubit/treasure_debug_cubit.dart';
 import 'package:treasure_of_aware/debug/widget/treasure/widgets/treasure_detail/treasure_detail_debug_widget.dart';
+import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
 
 class TreasureDebugWidget extends StatefulWidget {
   const TreasureDebugWidget({super.key});
@@ -12,11 +13,15 @@ class TreasureDebugWidget extends StatefulWidget {
 }
 
 class _TreasureDebugWidgetState extends State<TreasureDebugWidget> {
-  final cubit = TreasureDebugCubit();
+  late final TreasureDebugCubit cubit;
 
   @override
   void initState() {
     super.initState();
+    cubit = TreasureDebugCubit(
+      treasure: context.session.treasure,
+      treasureItems: context.session.treasureItems,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       cubit.init();
     });
@@ -31,7 +36,19 @@ class _TreasureDebugWidgetState extends State<TreasureDebugWidget> {
           title: Text("Treasure"),
           actions: [
             PopupMenuButton(
-              itemBuilder: (BuildContext context) => [PopupMenuItem(child: Text('Create'), onTap: () {})],
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem(
+                  child: ListTile(
+                    leading: Icon(Icons.create),
+                    title: Text('Create'),
+                  ),
+                  onTap: () {},
+                ),
+                PopupMenuItem(
+                  child: ListTile(leading: Icon(Icons.map), title: Text('Map')),
+                  onTap: () {},
+                ),
+              ],
             ),
           ],
         ),
@@ -46,14 +63,18 @@ class _TreasureDebugWidgetState extends State<TreasureDebugWidget> {
                 child: ListView.separated(
                   itemBuilder: (context, index) {
                     final item = cubit.treasure[index];
-                    final treasureItem = item.treasureItems(cubit.treasureItems);
+                    final treasureItem = item.treasureItems(
+                      cubit.treasureItems,
+                    );
                     return InkWell(
                       onTap: () {
                         if (treasureItem.isNotEmpty) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  TreasureDetailDebugWidget(treasure: item, treasureItems: treasureItem),
+                              builder: (context) => TreasureDetailDebugWidget(
+                                treasure: item,
+                                treasureItems: treasureItem,
+                              ),
                             ),
                           );
                         }
@@ -61,7 +82,9 @@ class _TreasureDebugWidgetState extends State<TreasureDebugWidget> {
                       child: ListTile(
                         title: Text(item.name),
                         subtitle: Text("Amount : ${treasureItem.length}"),
-                        trailing: treasureItem.isNotEmpty ? Icon(Icons.chevron_right_rounded) : null,
+                        trailing: treasureItem.isNotEmpty
+                            ? Icon(Icons.chevron_right_rounded)
+                            : null,
                       ),
                     );
                   },

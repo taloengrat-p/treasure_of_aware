@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import "package:json_annotation/json_annotation.dart";
 import 'package:treasure_of_aware/models/treasure_item.dart';
 
@@ -9,8 +10,15 @@ class Treasure {
   final String name;
   final int? amount;
   final String? image;
+  final int point;
 
-  Treasure({required this.id, required this.name, this.amount = 0, this.image});
+  Treasure({
+    required this.id,
+    required this.name,
+    this.amount = 0,
+    this.image,
+    this.point = 0,
+  });
 
   String get imageAsset {
     switch (image) {
@@ -43,7 +51,24 @@ class Treasure {
     return items.where((e) => e.treasureId == id).toList();
   }
 
-  factory Treasure.fromJson(Map<String, dynamic> json) => _$TreasureFromJson(json);
+  factory Treasure.fromJson(Map<String, dynamic> json) =>
+      _$TreasureFromJson(json);
 
   Map<String, dynamic> toJson() => _$TreasureToJson(this);
+
+  Treasure copyWith({
+    String? id,
+    String? name,
+    int? amount,
+    String? image,
+    int? point,
+  }) {
+    return Treasure(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      amount: amount ?? this.amount,
+      image: image ?? this.image,
+      point: point ?? this.point,
+    );
+  }
 }

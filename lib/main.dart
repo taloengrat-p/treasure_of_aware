@@ -1,27 +1,50 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:treasure_of_aware/debug/cubit/debugger_cubit.dart';
 import 'package:treasure_of_aware/firebase_options.dart';
 import 'package:treasure_of_aware/layout/map/cubit/map_layout_cubit.dart';
-import 'package:treasure_of_aware/screens/main_screen.dart';
+import 'package:treasure_of_aware/screens/splash/splash_screen.dart';
 import 'package:treasure_of_aware/services/inject/inject.dart';
+import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   configureDependencies();
+
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => MapLayoutCubit())],
+      providers: [
+        BlocProvider(create: (context) => MapLayoutCubit()),
+        BlocProvider(create: (context) => SessionCubit()),
+        BlocProvider(create: (context) => DebuggerCubit()),
+      ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,9 +65,16 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          titleTextStyle: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
       ),
-      home: const MainScreen(),
+      home: const SplashScreen(),
     );
   }
 }

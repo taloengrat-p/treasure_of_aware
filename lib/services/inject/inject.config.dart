@@ -15,6 +15,8 @@ import 'package:injectable/injectable.dart' as _i526;
 import '../../repository/treasure/impl/treasure_firestore_repository.dart'
     as _i918;
 import '../../repository/treasure/treasure_repository.dart' as _i207;
+import '../../repository/user/impl/user_firestore_repository.dart' as _i236;
+import '../../repository/user/user_repository.dart' as _i329;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -26,6 +28,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i207.TreasureRepository>(
       () => _i918.TreasureFirestoreRepository(),
     );
+    gh.singleton<_i329.UserRepository>(() => _i236.UserFirestoreRepository());
     return this;
   }
 }

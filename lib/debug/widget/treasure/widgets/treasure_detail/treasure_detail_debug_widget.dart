@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:treasure_of_aware/debug/widget/treasure/widgets/treasure_detail/cubit/treasure_detail_debug_cubit.dart';
 import 'package:treasure_of_aware/layout/map/cubit/map_layout_cubit.dart';
-import 'package:treasure_of_aware/layout/map/map_layout.dart';
 import 'package:treasure_of_aware/models/treasure.dart';
 import 'package:treasure_of_aware/models/treasure_item.dart';
-import 'package:treasure_of_aware/screens/main_screen.dart';
 
 class TreasureDetailDebugWidget extends StatefulWidget {
   final Treasure treasure;
   final List<TreasureItem> treasureItems;
-  const TreasureDetailDebugWidget({required this.treasure, required this.treasureItems, super.key});
+  const TreasureDetailDebugWidget({
+    required this.treasure,
+    required this.treasureItems,
+    super.key,
+  });
 
   @override
-  _TreasureDetailDebugWidgetState createState() => _TreasureDetailDebugWidgetState();
+  _TreasureDetailDebugWidgetState createState() =>
+      _TreasureDetailDebugWidgetState();
 }
 
 class _TreasureDetailDebugWidgetState extends State<TreasureDetailDebugWidget> {
@@ -21,7 +24,10 @@ class _TreasureDetailDebugWidgetState extends State<TreasureDetailDebugWidget> {
 
   @override
   void initState() {
-    cubit = TreasureDetailDebugCubit(treasure: widget.treasure, treasureItems: widget.treasureItems);
+    cubit = TreasureDetailDebugCubit(
+      treasure: widget.treasure,
+      treasureItems: widget.treasureItems,
+    );
     super.initState();
   }
 
@@ -51,12 +57,22 @@ class _TreasureDetailDebugWidgetState extends State<TreasureDetailDebugWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Owner : ${item.owner}"),
-                      Text("${item.direction} angle | height ${item.altitude} m"),
+                      Text(
+                        item.location,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleSmall?.copyWith(color: Colors.amber),
+                      ),
+                      Text(
+                        "${item.direction} angle | height ${item.altitude} m",
+                      ),
                     ],
                   ),
                   trailing: IconButton(
                     onPressed: () {
-                      BlocProvider.of<MapLayoutCubit>(context).flyTo(item.latlng);
+                      BlocProvider.of<MapLayoutCubit>(
+                        context,
+                      ).flyTo(item.latlng);
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     },
                     icon: Icon(Icons.map_rounded),

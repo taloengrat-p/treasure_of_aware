@@ -44,4 +44,23 @@ class TreasureFirestoreRepository extends TreasureRepository {
       throw Exception(e);
     }
   }
+
+  @override
+  Future<List<TreasureItem>> getAllItemsByUserId(String empId) async {
+    try {
+      final treasuriesRef = FirebaseFirestore.instance
+          .collection(FirestoreConstance.treasureItem)
+          .where('owner', isEqualTo: empId);
+
+      final treasureItemSnapshot = await treasuriesRef.get();
+
+      final treasuries = treasureItemSnapshot.docChanges
+          .map((e) => TreasureItem.fromJson(e.doc.data() ?? {}))
+          .toList();
+
+      return treasuries;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

@@ -12,7 +12,8 @@ class TreasureDebugCubit extends Cubit<TreasureDebugState> {
   List<Treasure> treasure = [];
   List<TreasureItem> treasureItems = [];
   final treasureRepository = GetIt.I<TreasureRepository>();
-  TreasureDebugCubit() : super(TreasureDebugInitial());
+  TreasureDebugCubit({required this.treasure, required this.treasureItems})
+    : super(TreasureDebugInitial());
 
   void init() async {
     emit(TreasureDebugLoading());

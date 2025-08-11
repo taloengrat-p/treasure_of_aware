@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:treasure_of_aware/debug/widget/debugger_body.dart';
 
 class DebuggerButtonWidget extends StatefulWidget {
-  const DebuggerButtonWidget({Key? key}) : super(key: key);
+  const DebuggerButtonWidget({super.key});
 
   @override
   State<DebuggerButtonWidget> createState() => _DebuggerButtonWidgetState();

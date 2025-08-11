@@ -11,6 +11,7 @@ Treasure _$TreasureFromJson(Map<String, dynamic> json) => Treasure(
   name: json['name'] as String,
   amount: (json['amount'] as num?)?.toInt() ?? 0,
   image: json['image'] as String?,
+  point: (json['point'] as num?)?.toInt() ?? 0,
 );
 
 Map<String, dynamic> _$TreasureToJson(Treasure instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$TreasureToJson(Treasure instance) => <String, dynamic>{
   'name': instance.name,
   'amount': instance.amount,
   'image': instance.image,
+  'point': instance.point,
 };
