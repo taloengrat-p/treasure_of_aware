@@ -135,4 +135,23 @@ class TreasureFirestoreRepository extends TreasureRepository {
       throw Exception(e);
     }
   }
+
+  @override
+  Future<TreasureItem> addTreasure(TreasureItem item) async {
+    try {
+      final treasuriesRef = await FirebaseFirestore.instance
+          .collection(FirestoreConstance.treasureItem)
+          .add(item.toJson());
+
+      final treasureItemSnapshot = await treasuriesRef.get();
+
+      final treasuries = TreasureItem.fromJson(
+        treasureItemSnapshot.data() ?? {},
+      );
+
+      return treasuries;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

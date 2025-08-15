@@ -22,12 +22,12 @@ class SessionCubit extends Cubit<SessionState> {
   final _treasureRepository = GetIt.I<TreasureRepository>();
   final _userRepository = GetIt.I<UserRepository>();
 
-  String empId = "9390";
+  String empId;
   Employee? employee;
   double unlockDistance = 0.5;
   List<TreasureItem> employeeTreasureItem = [];
 
-  SessionCubit() : super(SessionInitial());
+  SessionCubit({required this.empId}) : super(SessionInitial());
 
   void init() async {
     emit(SessionInitialLoading());

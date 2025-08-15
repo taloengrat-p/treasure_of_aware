@@ -9,4 +9,5 @@ abstract class TreasureRepository {
   Future<List<TreasureItem>> getAllItemsByUserId(String empId);
   Future<TreasureItem?> claimTreasureItem(String id, Employee emp);
   Future<void> resetTreasureItemOwner(String id);
+  Future<TreasureItem> addTreasure(TreasureItem item);
 }

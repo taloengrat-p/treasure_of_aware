@@ -32,26 +32,7 @@ class _TreasureDebugWidgetState extends State<TreasureDebugWidget> {
     return BlocProvider.value(
       value: cubit,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Treasure"),
-          actions: [
-            PopupMenuButton(
-              itemBuilder: (BuildContext context) => [
-                PopupMenuItem(
-                  child: ListTile(
-                    leading: Icon(Icons.create),
-                    title: Text('Create'),
-                  ),
-                  onTap: () {},
-                ),
-                PopupMenuItem(
-                  child: ListTile(leading: Icon(Icons.map), title: Text('Map')),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ],
-        ),
+        appBar: AppBar(title: Text("Treasure")),
         body: RefreshIndicator.adaptive(
           onRefresh: () async {
             cubit.refresh();
@@ -68,23 +49,19 @@ class _TreasureDebugWidgetState extends State<TreasureDebugWidget> {
                     );
                     return InkWell(
                       onTap: () {
-                        if (treasureItem.isNotEmpty) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => TreasureDetailDebugWidget(
-                                treasure: item,
-                                treasureItems: treasureItem,
-                              ),
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => TreasureDetailDebugWidget(
+                              treasure: item,
+                              treasureItems: treasureItem,
                             ),
-                          );
-                        }
+                          ),
+                        );
                       },
                       child: ListTile(
                         title: Text(item.name),
                         subtitle: Text("Amount : ${treasureItem.length}"),
-                        trailing: treasureItem.isNotEmpty
-                            ? Icon(Icons.chevron_right_rounded)
-                            : null,
+                        trailing: Icon(Icons.chevron_right_rounded),
                       ),
                     );
                   },

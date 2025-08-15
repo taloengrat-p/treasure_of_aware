@@ -9,7 +9,7 @@ part "treasure_item.g.dart";
 class TreasureItem {
   final String id;
   final String location;
-  final int direction;
+  final int? direction;
   final double altitude;
   final String? owner;
   final String treasureId;
@@ -17,7 +17,7 @@ class TreasureItem {
   TreasureItem({
     required this.id,
     required this.location,
-    required this.direction,
+    this.direction,
     required this.altitude,
     required this.treasureId,
     this.owner,

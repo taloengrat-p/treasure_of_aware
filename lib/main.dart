@@ -22,7 +22,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => MapLayoutCubit()),
-        BlocProvider(create: (context) => SessionCubit()),
+        BlocProvider(create: (context) => SessionCubit(empId: "9390")),
         BlocProvider(create: (context) => DebuggerCubit()),
       ],
       child: const MyApp(),

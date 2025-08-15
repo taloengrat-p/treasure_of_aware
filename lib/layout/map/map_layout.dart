@@ -11,8 +11,9 @@ import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
 
 class MapLayout extends StatefulWidget {
   final MapCreatedCallback? onMapCreated;
+  final void Function(LatLng)? onTap;
 
-  const MapLayout({Key? key, this.onMapCreated}) : super(key: key);
+  const MapLayout({Key? key, this.onMapCreated, this.onTap}) : super(key: key);
 
   @override
   _MapLayoutState createState() => _MapLayoutState();
@@ -83,6 +84,7 @@ class _MapLayoutState extends State<MapLayout> {
                       if (debuggerCubit.isDebugMode) {
                         maplayoutCubit.setCurrentPosition(argument, 10);
                       }
+                      widget.onTap?.call(argument);
                     },
                     markers: {
                       if (debuggerCubit.isDebugMode)

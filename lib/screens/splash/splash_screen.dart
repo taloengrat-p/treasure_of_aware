@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:treasure_of_aware/layout/map/cubit/map_layout_cubit.dart';
-import 'package:treasure_of_aware/screens/main/main_screen.dart';
 import 'package:treasure_of_aware/screens/ranking/ranking_screen.dart';
 import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
 

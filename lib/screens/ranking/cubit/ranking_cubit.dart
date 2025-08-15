@@ -40,4 +40,6 @@ class RankingCubit extends Cubit<RankingState> {
     treasureItem = await _treasureRepository.getAllItems();
     emit(RankingInitialSuccess());
   }
+
+  _doSortRanking() {}
 }

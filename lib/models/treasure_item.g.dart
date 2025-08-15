@@ -9,7 +9,7 @@ part of 'treasure_item.dart';
 TreasureItem _$TreasureItemFromJson(Map<String, dynamic> json) => TreasureItem(
   id: json['id'] as String,
   location: json['location'] as String,
-  direction: (json['direction'] as num).toInt(),
+  direction: (json['direction'] as num?)?.toInt(),
   altitude: (json['altitude'] as num).toDouble(),
   treasureId: json['treasureId'] as String,
   owner: json['owner'] as String?,
