@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:treasure_of_aware/debug/cubit/debugger_cubit.dart';
 import 'package:treasure_of_aware/debug/debugger_button_widget.dart';
-import 'package:treasure_of_aware/dialogs/treasure_detect_alert/treature_detect_alert_dialog.dart';
+import 'package:treasure_of_aware/widgets/dialogs/treasure_detect_alert/treature_detect_alert_dialog.dart';
 import 'package:treasure_of_aware/layout/map/cubit/map_layout_cubit.dart';
 import 'package:treasure_of_aware/layout/map/map_layout.dart';
 import 'package:treasure_of_aware/screens/inventory/inventory_screen.dart';

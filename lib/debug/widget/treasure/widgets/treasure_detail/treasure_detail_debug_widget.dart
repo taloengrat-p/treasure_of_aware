@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:treasure_of_aware/debug/widget/treasure/widgets/treasure_add/treasure_add_widget.dart';
 import 'package:treasure_of_aware/debug/widget/treasure/widgets/treasure_detail/cubit/treasure_detail_debug_cubit.dart';
-import 'package:treasure_of_aware/dialogs/treasure_success_alert/treasure_success_alert.dart';
+import 'package:treasure_of_aware/widgets/dialogs/treasure_success_alert/treasure_success_alert.dart';
 import 'package:treasure_of_aware/layout/map/cubit/map_layout_cubit.dart';
 import 'package:treasure_of_aware/models/treasure.dart';
 import 'package:treasure_of_aware/models/treasure_item.dart';
