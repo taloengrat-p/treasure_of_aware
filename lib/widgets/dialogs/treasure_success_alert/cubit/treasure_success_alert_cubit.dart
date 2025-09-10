@@ -10,10 +10,10 @@ class TreasureSuccessAlertCubit extends Cubit<TreasureSuccessAlertState> {
   TreasureSuccessAlertCubit() : super(TreasureSuccessAlertInitial());
 
   void submit(String id, Employee? emp) async {
-    if (emp != null) {
+    if (emp != null || (emp?.id.isNotEmpty ?? false)) {
       try {
         emit(TreasureSuccessAlertLoading());
-        await _treasureRepository.claimTreasureItem(id, emp);
+        await _treasureRepository.claimTreasureItem(id, emp!);
         emit(TreasureSuccessAlertSuccess());
       } catch (e) {
         emit(TreasureSuccessAlertFailure(error: e));

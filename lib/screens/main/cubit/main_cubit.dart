@@ -44,7 +44,7 @@ class MainCubit extends Cubit<MainState> {
   }
 
   void doHideUnlockTreasureItem() {
-    isShowUnlockTreasure = true;
+    isShowUnlockTreasure = false;
     emit(MainUnlockTreasure(isShowUnlockTreasure));
   }
 

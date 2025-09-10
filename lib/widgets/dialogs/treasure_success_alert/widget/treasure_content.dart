@@ -9,7 +9,11 @@ class TreasureContent extends StatefulWidget {
   final Treasure treasure;
   final TreasureItem treasureItem;
 
-  const TreasureContent({super.key, required this.treasure, required this.treasureItem});
+  const TreasureContent({
+    super.key,
+    required this.treasure,
+    required this.treasureItem,
+  });
 
   @override
   State<TreasureContent> createState() => _TreasureContentState();
@@ -29,8 +33,11 @@ class _TreasureContentState extends State<TreasureContent> {
           }
         },
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(24), color: Colors.white),
-          height: 500,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            color: Colors.white,
+          ),
+          height: 320,
           width: double.infinity,
           child: Scaffold(
             backgroundColor: Colors.transparent,
@@ -39,36 +46,49 @@ class _TreasureContentState extends State<TreasureContent> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 24),
-                  Text(widget.treasure.name, style: Theme.of(context).textTheme.titleLarge),
-                  SizedBox(height: 16),
-                  Image.asset(widget.treasure.imageAsset, height: 140),
+                  Text(
+                    widget.treasure.name,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  Image.asset(widget.treasure.imageAsset, height: 120),
                 ],
               ),
             ),
-            bottomNavigationBar: BlocBuilder<TreasureSuccessAlertCubit, TreasureSuccessAlertState>(
-              builder: (context, state) {
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (state is TreasureSuccessAlertFailure) Text("${state.error.toString()}"),
-                      ElevatedButton(
-                        onPressed: state is TreasureSuccessAlertLoading
-                            ? null
-                            : () {
-                                cubit.submit(widget.treasureItem.id, context.session.employee);
-                              },
-                        child: state is TreasureSuccessAlertLoading
-                            ? CircularProgressIndicator.adaptive()
-                            : Text("Claim"),
+            bottomNavigationBar:
+                BlocBuilder<
+                  TreasureSuccessAlertCubit,
+                  TreasureSuccessAlertState
+                >(
+                  builder: (context, state) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (state is TreasureSuccessAlertFailure)
+                            Text("${state.error.toString()}"),
+                          ElevatedButton(
+                            onPressed: state is TreasureSuccessAlertLoading
+                                ? null
+                                : () {
+                                    cubit.submit(
+                                      widget.treasureItem.id,
+                                      context.session.employee,
+                                    );
+                                  },
+                            child: state is TreasureSuccessAlertLoading
+                                ? CircularProgressIndicator.adaptive()
+                                : Text("Claim"),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
           ),
         ),
       ),

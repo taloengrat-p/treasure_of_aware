@@ -8,7 +8,9 @@ import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
 import 'package:treasure_of_aware/widgets/overlay_loading.dart';
 
 class RankingScreen extends StatefulWidget {
-  const RankingScreen({super.key});
+  final bool showBottom;
+
+  const RankingScreen({super.key, this.showBottom = true});
 
   @override
   _RankingScreenState createState() => _RankingScreenState();
@@ -97,30 +99,34 @@ class _RankingScreenState extends State<RankingScreen> {
                 },
               ),
             ),
-            bottomNavigationBar: SafeArea(
-              child: Padding(
-                padding: EdgeInsetsGeometry.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainScreen()),
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.map_rounded, size: 28),
-                      SizedBox(width: 8),
-                      Text("Play Game"),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            bottomNavigationBar: widget.showBottom
+                ? SafeArea(
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.symmetric(
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainScreen(),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.map_rounded, size: 28),
+                            SizedBox(width: 8),
+                            Text("Play Game"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
           ),
           BlocBuilder<RankingCubit, RankingState>(
             buildWhen: (previous, current) =>

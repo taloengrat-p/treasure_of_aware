@@ -18,7 +18,9 @@ class TreasureFirestoreRepository extends TreasureRepository {
       final treasureSnapshot = await treasuriesRef.get();
 
       final treasuries = treasureSnapshot.docChanges
-          .map((e) => Treasure.fromJson(e.doc.data() ?? {}))
+          .map(
+            (e) => Treasure.fromJson({"id": e.doc.id, ...e.doc.data() ?? {}}),
+          )
           .toList();
 
       return treasuries;
@@ -37,7 +39,10 @@ class TreasureFirestoreRepository extends TreasureRepository {
       final treasureItemSnapshot = await treasuriesRef.get();
 
       final treasuries = treasureItemSnapshot.docChanges
-          .map((e) => TreasureItem.fromJson(e.doc.data() ?? {}))
+          .map(
+            (e) =>
+                TreasureItem.fromJson({...e.doc.data() ?? {}, "id": e.doc.id}),
+          )
           .toList();
 
       return treasuries;
@@ -56,7 +61,10 @@ class TreasureFirestoreRepository extends TreasureRepository {
       final treasureItemSnapshot = await treasuriesRef.get();
 
       final treasuries = treasureItemSnapshot.docChanges
-          .map((e) => TreasureItem.fromJson(e.doc.data() ?? {}))
+          .map(
+            (e) =>
+                TreasureItem.fromJson({...e.doc.data() ?? {}, "id": e.doc.id}),
+          )
           .toList();
 
       return treasuries;
@@ -74,9 +82,10 @@ class TreasureFirestoreRepository extends TreasureRepository {
 
       final treasureItemSnapshot = await treasuriesRef.get();
 
-      final treasuries = TreasureItem.fromJson(
-        treasureItemSnapshot.data() ?? {},
-      );
+      final treasuries = TreasureItem.fromJson({
+        ...treasureItemSnapshot.data() ?? {},
+        "id": treasureItemSnapshot.id,
+      });
 
       if (treasuries.owner != null) {
         throw ({"statusCode": 400, "message": "Already has owner"});
@@ -84,9 +93,10 @@ class TreasureFirestoreRepository extends TreasureRepository {
 
       await treasuriesRef.update({"owner": emp.id});
 
-      final claimTreasureItemResult = TreasureItem.fromJson(
-        treasureItemSnapshot.data() ?? {},
-      );
+      final claimTreasureItemResult = TreasureItem.fromJson({
+        ...treasureItemSnapshot.data() ?? {},
+        "id": treasureItemSnapshot.id,
+      });
 
       return claimTreasureItemResult;
     } catch (e) {
@@ -104,7 +114,10 @@ class TreasureFirestoreRepository extends TreasureRepository {
       final treasureItemSnapshot = await treasuriesRef.get();
 
       final treasuries = treasureItemSnapshot.docChanges
-          .map((e) => TreasureItem.fromJson(e.doc.data() ?? {}))
+          .map(
+            (e) =>
+                TreasureItem.fromJson({...e.doc.data() ?? {}, "id": e.doc.id}),
+          )
           .toList();
 
       return treasuries;
@@ -122,9 +135,10 @@ class TreasureFirestoreRepository extends TreasureRepository {
 
       final treasureItemSnapshot = await treasuriesRef.get();
 
-      final treasuries = TreasureItem.fromJson(
-        treasureItemSnapshot.data() ?? {},
-      );
+      final treasuries = TreasureItem.fromJson({
+        ...treasureItemSnapshot.data() ?? {},
+        "id": treasureItemSnapshot.id,
+      });
 
       if (treasuries.owner == null) {
         return;
@@ -145,9 +159,10 @@ class TreasureFirestoreRepository extends TreasureRepository {
 
       final treasureItemSnapshot = await treasuriesRef.get();
 
-      final treasuries = TreasureItem.fromJson(
-        treasureItemSnapshot.data() ?? {},
-      );
+      final treasuries = TreasureItem.fromJson({
+        ...treasureItemSnapshot.data() ?? {},
+        "id": treasureItemSnapshot.id,
+      });
 
       return treasuries;
     } catch (e) {

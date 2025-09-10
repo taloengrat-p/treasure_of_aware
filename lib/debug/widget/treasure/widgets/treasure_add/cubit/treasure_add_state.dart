@@ -11,6 +11,9 @@ final class TreasureAddInitial extends TreasureAddState {}
 
 final class TreasureAddLoading extends TreasureAddState {}
 
-final class TreasureAddSuccess extends TreasureAddState {}
+final class TreasureAddSuccess extends TreasureAddState {
+  final TreasureItem item;
+  const TreasureAddSuccess(this.item);
+}
 
 final class TreasureAddFailure extends TreasureAddState {}

@@ -13,6 +13,7 @@ class MapLayoutCubit extends Cubit<MapLayoutState> {
   double zoom = 22;
   double tilt = 45;
   double accuracy = 0;
+  num? altitude;
   MapLayoutCubit() : super(MapLayoutInitial());
 
   LatLng? get currentPosition => _currentPosition;
@@ -21,9 +22,10 @@ class MapLayoutCubit extends Cubit<MapLayoutState> {
     emit(MapLayoutFlyTo(location));
   }
 
-  void setCurrentPosition(LatLng value, double accuracy) {
+  void setCurrentPosition(LatLng value, double accuracy, {num? altitude}) {
     _currentPosition = value;
     this.accuracy = accuracy;
+    this.altitude = altitude;
     emitStateUserChange();
   }
 
@@ -54,6 +56,7 @@ class MapLayoutCubit extends Cubit<MapLayoutState> {
         zoom: zoom,
         tilt: tilt,
         accuracy: accuracy,
+        altitude: altitude,
       ),
     );
   }

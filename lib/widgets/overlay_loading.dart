@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class OverlayLoading extends StatelessWidget {
-  const OverlayLoading({super.key});
+  final String? message;
+  const OverlayLoading({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +10,23 @@ class OverlayLoading extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       color: Colors.black54,
-      child: CircularProgressIndicator.adaptive(backgroundColor: Colors.white),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator.adaptive(backgroundColor: Colors.white),
+          if (message != null) ...[
+            SizedBox(height: 16),
+            Text(
+              message!,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

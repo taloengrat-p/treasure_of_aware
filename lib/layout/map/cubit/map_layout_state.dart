@@ -23,12 +23,14 @@ final class MapLayoutUserLocationUpdate extends MapLayoutState {
   final double zoom;
   final double tilt;
   final double accuracy;
+  final num? altitude;
   MapLayoutUserLocationUpdate({
     required this.location,
     required this.heading,
     required this.zoom,
     required this.tilt,
     required this.accuracy,
+    required this.altitude,
   });
 
   @override
@@ -37,6 +39,8 @@ final class MapLayoutUserLocationUpdate extends MapLayoutState {
     location.longitude,
     heading,
     zoom,
+    accuracy,
     tilt,
+    altitude,
   ];
 }

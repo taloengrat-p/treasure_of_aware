@@ -11,9 +11,11 @@ import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
 
 class MapLayout extends StatefulWidget {
   final MapCreatedCallback? onMapCreated;
+  final bool? showMarker;
   final void Function(LatLng)? onTap;
 
-  const MapLayout({Key? key, this.onMapCreated, this.onTap}) : super(key: key);
+  const MapLayout({Key? key, this.onMapCreated, this.onTap, this.showMarker})
+    : super(key: key);
 
   @override
   _MapLayoutState createState() => _MapLayoutState();
@@ -81,13 +83,15 @@ class _MapLayoutState extends State<MapLayout> {
                       // bearing: 90,
                     ),
                     onTap: (argument) {
-                      if (debuggerCubit.isDebugMode) {
+                      if (debuggerCubit.isDebugMode ||
+                          widget.showMarker == true) {
                         maplayoutCubit.setCurrentPosition(argument, 10);
                       }
                       widget.onTap?.call(argument);
                     },
                     markers: {
-                      if (debuggerCubit.isDebugMode)
+                      if (debuggerCubit.isDebugMode ||
+                          widget.showMarker == true)
                         ...context.session.treasureItems
                             .map(
                               (item) => Marker(
@@ -104,9 +108,9 @@ class _MapLayoutState extends State<MapLayout> {
                                       ),
                                 position: item.latlng,
                                 infoWindow: InfoWindow(
-                                  title: item
-                                      .treasure(context.session.treasure)
-                                      ?.name,
+                                  title:
+                                      "${item.treasure(context.session.treasure)?.name}",
+                                  snippet: item.id,
                                   onTap: () {
                                     log("message");
                                   },
@@ -127,7 +131,8 @@ class _MapLayoutState extends State<MapLayout> {
                         ),
                     },
                     circles: {
-                      if (debuggerCubit.isDebugMode)
+                      if (debuggerCubit.isDebugMode ||
+                          widget.showMarker == true)
                         ...context.session.treasureItems
                             .map(
                               (item) => Circle(
@@ -162,7 +167,7 @@ class _MapLayoutState extends State<MapLayout> {
           BlocBuilder<DebuggerCubit, DebuggerState>(
             builder: (context, state) {
               return Visibility(
-                visible: debuggerCubit.isDebugMode,
+                visible: debuggerCubit.isDebugMode || widget.showMarker == true,
                 child: SafeArea(
                   child: Align(
                     alignment: Alignment.topLeft,

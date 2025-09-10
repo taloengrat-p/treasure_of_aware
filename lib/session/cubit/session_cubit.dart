@@ -29,6 +29,8 @@ class SessionCubit extends Cubit<SessionState> {
 
   SessionCubit({required this.empId}) : super(SessionInitial());
 
+  num get accuracyTarget => 15;
+
   void init() async {
     emit(SessionInitialLoading());
     employee = await _userRepository.getUserById(empId);

@@ -7,16 +7,17 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:treasure_of_aware/debug/cubit/debugger_cubit.dart';
 import 'package:treasure_of_aware/debug/debugger_button_widget.dart';
-import 'package:treasure_of_aware/widgets/dialogs/treasure_detect_alert/treature_detect_alert_dialog.dart';
 import 'package:treasure_of_aware/layout/map/cubit/map_layout_cubit.dart';
 import 'package:treasure_of_aware/layout/map/map_layout.dart';
 import 'package:treasure_of_aware/screens/inventory/inventory_screen.dart';
 import 'package:treasure_of_aware/screens/main/cubit/main_cubit.dart';
 import 'package:treasure_of_aware/screens/ranking/ranking_screen.dart';
 import 'package:treasure_of_aware/session/cubit/session_cubit.dart';
+import 'package:treasure_of_aware/widgets/dialogs/treasure_success_alert/treasure_success_alert.dart';
+import 'package:treasure_of_aware/widgets/overlay_loading.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -53,6 +54,7 @@ class _MainScreenState extends State<MainScreen> {
         mapCubit.setCurrentPosition(
           LatLng(position.latitude, position.longitude),
           position.accuracy,
+          altitude: position.altitude,
         );
       }
     });
@@ -94,7 +96,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
-                    margin: EdgeInsets.only(right: 16),
+                    margin: EdgeInsets.only(right: 16, bottom: 16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -103,7 +105,8 @@ class _MainScreenState extends State<MainScreen> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const RankingScreen(),
+                                builder: (context) =>
+                                    const RankingScreen(showBottom: false),
                               ),
                             );
                           },
@@ -136,6 +139,23 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
               ),
+              BlocSelector<MapLayoutCubit, MapLayoutState, double>(
+                selector: (state) {
+                  return state is MapLayoutUserLocationUpdate
+                      ? state.accuracy
+                      : 0;
+                },
+                builder: (context, accuracy) {
+                  if (accuracy <= context.session.accuracyTarget) {
+                    return SizedBox();
+                  }
+
+                  return OverlayLoading(
+                    message:
+                        "Accuracy : $accuracy\n Should be less than or equal to ${context.session.accuracyTarget}",
+                  );
+                },
+              ),
               DebuggerButtonWidget(),
               // SafeArea(
               //   child: Align(
@@ -159,20 +179,20 @@ class _MainScreenState extends State<MainScreen> {
     MapLayoutState state,
   ) {
     if (state is MapLayoutUserLocationUpdate) {
-      if (!debuggerCubit.isDebugMode) {
-        _mapController?.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: mapCubit.currentPosition!,
-              zoom: state.zoom,
-              bearing: state.heading,
-              tilt: state.tilt,
-            ),
+      // if (!debuggerCubit.isDebugMode) {
+      _mapController?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: mapCubit.currentPosition!,
+            zoom: state.zoom,
+            bearing: state.heading,
+            tilt: state.tilt,
           ),
-        );
+        ),
+      );
 
-        cubit.detectCloseToTreasureItem();
-      }
+      cubit.detectCloseToTreasureItem();
+      // }
     }
   }
 
@@ -184,7 +204,7 @@ class _MainScreenState extends State<MainScreen> {
 
       cubit.doShowUnlockTreasureItem();
 
-      await TreatureDetectAlertDialog.show(
+      await TreasureSuccessAlert.show(
         context,
         treasure: state.treasure,
         treasureItem: state.treasureItem,

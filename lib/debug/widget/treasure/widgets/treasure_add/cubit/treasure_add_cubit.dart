@@ -25,8 +25,8 @@ class TreasureAddCubit extends Cubit<TreasureAddState> {
         treasureId: treasure.id,
       );
 
-      await _treasureRepository.addTreasure(payload);
-      emit(TreasureAddSuccess());
+      final resultAddTreasure = await _treasureRepository.addTreasure(payload);
+      emit(TreasureAddSuccess(resultAddTreasure));
     } catch (e) {
       emit(TreasureAddFailure());
     }
